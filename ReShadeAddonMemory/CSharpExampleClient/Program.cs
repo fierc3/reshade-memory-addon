@@ -1,19 +1,33 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.IO.MemoryMappedFiles;
+﻿using System.IO.MemoryMappedFiles;
+using System.Text;
 
 Console.WriteLine("Starting CSharpExampleClient, this example will");
+
+const int MaxNameLength = 64;
 
 using var mmf = MemoryMappedFile.CreateOrOpen("Local\\ReShadeAddonShared", sizeof(float));
 using var accessor = mmf.CreateViewAccessor();
 
-float alpha = 0.0f;
+string uniformName = "mem_Alpha";
+byte[] nameBytes = Encoding.UTF8.GetBytes(uniformName);
+if (nameBytes.Length >= MaxNameLength)
+{
+    Console.WriteLine("Uniform name too long");
+    return;
+}
+
 while (true)
 {
-    var now = DateTime.UtcNow;
-    double seconds = now.TimeOfDay.TotalSeconds;
-    alpha = (float)(Math.Sin(seconds * 2.0) * 0.5 + 0.5); // 2 Hz oscillation
+    double seconds = DateTime.UtcNow.TimeOfDay.TotalSeconds;
+    float value = (float)(Math.Sin(seconds * 2.0) * 0.5 + 0.5);
 
-    accessor.Write(0, alpha);
-    Console.WriteLine("Updated shaared memory");
-    Thread.Sleep(60); //60 hz
+    // Write uniform name (zero-padded)
+    accessor.WriteArray(0, nameBytes, 0, nameBytes.Length);
+    accessor.Write(MaxNameLength - 1, (byte)0); // null terminator
+
+    // Write value
+    accessor.Write(MaxNameLength, value);
+
+    Console.WriteLine($"Sent {uniformName} = {value:F3}");
+    Thread.Sleep(16); // ~60Hz
 }
