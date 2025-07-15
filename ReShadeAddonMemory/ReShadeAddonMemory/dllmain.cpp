@@ -17,7 +17,7 @@ static void on_present(reshade::api::effect_runtime* runtime)
     }
 
     // Find and set the shader uniform
-    reshade::api::effect_uniform_variable uniform = runtime->find_uniform_variable(nullptr, "uAlpha");
+    reshade::api::effect_uniform_variable uniform = runtime->find_uniform_variable(nullptr, "mem_Alpha");
     if (uniform.handle != 0)
     {
         runtime->set_uniform_value_float(uniform, &uAlphaValue, 1);
