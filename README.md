@@ -2,7 +2,7 @@
 
 A minimal ReShade add-on that allows **real-time control of shader uniforms** (currently `float` values) from an external program using **shared memory**.
 
-## 🧠 What is this?
+## What is this?
 
 This project demonstrates:
 
@@ -35,7 +35,7 @@ example-shaders/
 
 ## 🛠️ How It Works
 
-### 📤 From C# (Writer)
+### From C# (Writer)
 
 C# app writes:
 
@@ -50,7 +50,7 @@ accessor.Write(64, floatValue);                         // float value
 
 ---
 
-### 📥 From ReShade Addon (Reader)
+### From ReShade Addon (Reader)
 
 Addon reads shared memory every frame:
 
@@ -65,7 +65,7 @@ runtime->set_uniform_value_float(uniform, &value, 1);
 
 ---
 
-## 🧪 Test Shader: `RedAlpha.fx`
+## Test Shader: `RedAlpha.fx`
 
 This shader blends the screen red based on the external value of `mem_Alpha`:
 
@@ -84,13 +84,13 @@ float4 MainPass(float4 pos : SV_Position, float2 uv : TEXCOORD) : SV_Target
 
 ## 🚀 Getting Started
 
-### ✅ Requirements
+### Requirements
 
 * ReShade 5.x+ with addon support
 * A compatible game (e.g., *Oceanhorn*)
 * Visual Studio 2022 (C++, .NET SDK)
 
-### 📎 Build Steps
+### Build Steps
 
 1. Clone this repo
 2. Open Solution in VS 2022+
