@@ -1,10 +1,8 @@
 #include "ReShade.fxh"
 
-
 uniform float mem_Alpha <
     source = "ReShadeAddonMemory";
 > = 0.5;
-
 
 texture2D texColor : COLOR;
 sampler SamplerColor
