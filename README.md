@@ -10,7 +10,7 @@ This project demonstrates:
 * 🧪 A C# client app (`CSharpExampleClient`) that sends values via `MemoryMappedFile`
 * 🎨 A test shader (`RedAlpha.fx`) that reads a float uniform `mem_Alpha` to blend a red tint
 
-Together, they enable external applications to dynamically change shader values — e.g., for simulating eye strain, ambient interaction, and biofeedback, among others.
+Together, they enable external applications to dynamically change shader values.
 
 ---
 
