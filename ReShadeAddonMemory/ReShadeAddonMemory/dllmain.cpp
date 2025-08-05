@@ -6,23 +6,41 @@ static const size_t MaxNameLength = 64;
 static HANDLE hMapFile = nullptr;
 static uint8_t* sharedMemory = nullptr;
 
+/*
+Memory Structure
+
+Offset 0:   Name "mem_positionX"  (64 bytes)
+Offset 64:  float value X         (4 bytes)
+
+Offset 68:  Name "mem_positionY"  (64 bytes)
+Offset 132: float value Y         (4 bytes)
+
+*/
+
 static void on_present(reshade::api::effect_runtime* runtime)
 {
     if (!sharedMemory)
         return;
 
-    // Read name
-    char name[MaxNameLength]{};
-    memcpy(name, sharedMemory, MaxNameLength);
-    name[MaxNameLength - 1] = '\0'; // ensure null termination
+    const size_t EntrySize = MaxNameLength + sizeof(float);
 
-    // Read value
-    float value = *reinterpret_cast<float*>(sharedMemory + MaxNameLength);
-
-    auto uniform = runtime->find_uniform_variable(nullptr, name);
-    if (uniform.handle != 0)
+    for (int i = 0; i < 2; ++i) // Read both entries: X and Y
     {
-        runtime->set_uniform_value_float(uniform, &value, 1);
+        uint8_t* entryPtr = sharedMemory + i * EntrySize;
+
+        // Read name
+        char name[MaxNameLength]{};
+        memcpy(name, entryPtr, MaxNameLength);
+        name[MaxNameLength - 1] = '\0'; // Ensure null-terminated
+
+        // Read float value
+        float value = *reinterpret_cast<float*>(entryPtr + MaxNameLength);
+
+        auto uniform = runtime->find_uniform_variable(nullptr, name);
+        if (uniform.handle != 0)
+        {
+            runtime->set_uniform_value_float(uniform, &value, 1);
+        }
     }
 }
 
