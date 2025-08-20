@@ -117,7 +117,7 @@ float4 MainPass(float4 pos : SV_Position, float2 uv : TEXCOORD) : SV_Target
 - Run the ReShade installer and select **acs.exe** (Assetto Corsa executable)
 - Choose the pre-selected API (do not manually select Assetto Corsa)
 - Download shaders from [example-shaders](https://github.com/fierc3/reshade-memory-addon/tree/main/example-shaders)  
-  and place them into the `reshade-shaders` folder created in the Assetto Corsa directory
+  and place them into the `reshade-shaders` folder created in the Assetto Corsa directory (VisaulSim.fx contains a scotoma and glaucoma sim)
 
 #### 4. Install ReshadeAddonMemory
 - Download the latest `ReshadeAddonMemory.addon` from [Google Drive](https://drive.google.com/drive/folders/1EBNBS96HteNpe_csaqb8hVFpVOEXkDK5?usp=drive_link)  
